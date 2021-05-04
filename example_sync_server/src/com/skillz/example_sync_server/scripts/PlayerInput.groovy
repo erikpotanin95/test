@@ -1,3 +1,4 @@
+
 // This is an example of using a Groovy script instead of a class to implement message handlers
 // This is functionally the same as the implementation in PlayerInputHandler.groovy, but as a script
 //

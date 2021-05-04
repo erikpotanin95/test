@@ -1,3 +1,4 @@
+
 // This is an example of using a Groovy script instead of a class to implement message handlers
 // This script will pass all Chat messages directly to the other player
 //

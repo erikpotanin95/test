@@ -6,9 +6,10 @@ import groovy.util.logging.Slf4j
 
 @Slf4j
 @CompileStatic
-class Player extends Client<ExampleSkillzGame> {
+class Player extends Client<JewelBlitzGame> {
 
     MessageSender messageSender = new MessageSender(this)
+    String board;
 
     @Override
     def start() {

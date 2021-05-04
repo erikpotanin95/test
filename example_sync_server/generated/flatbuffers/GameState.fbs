@@ -4,4 +4,6 @@ table GameState {
     tickCount: int;
     playerScore: int;
     opponentScore: int;
+    opponentBoard: string;
+    gameTime: long;
 }

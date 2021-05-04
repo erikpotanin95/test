@@ -20,14 +20,22 @@ public final class GameState extends Message {
   public int tickCount() { int o = __offset(8); return o != 0 ? bb.getInt(o + bb_pos) : 0; }
   public int playerScore() { int o = __offset(10); return o != 0 ? bb.getInt(o + bb_pos) : 0; }
   public int opponentScore() { int o = __offset(12); return o != 0 ? bb.getInt(o + bb_pos) : 0; }
+  public String opponentBoard() { int o = __offset(14); return o != 0 ? __string(o + bb_pos) : null; }
+  public ByteBuffer opponentBoardAsByteBuffer() { return __vector_as_bytebuffer(14, 1); }
+  public ByteBuffer opponentBoardInByteBuffer(ByteBuffer _bb) { return __vector_in_bytebuffer(_bb, 14, 1); }
+  public long gameTime() { int o = __offset(16); return o != 0 ? bb.getLong(o + bb_pos) : 0L; }
 
   public static int createGameState(FlatBufferBuilder builder,
       short opcode,
       int gameTickCount,
       int tickCount,
       int playerScore,
-      int opponentScore) {
-    builder.startTable(5);
+      int opponentScore,
+      int opponentBoardOffset,
+      long gameTime) {
+    builder.startTable(7);
+    GameState.addGameTime(builder, gameTime);
+    GameState.addOpponentBoard(builder, opponentBoardOffset);
     GameState.addOpponentScore(builder, opponentScore);
     GameState.addPlayerScore(builder, playerScore);
     GameState.addTickCount(builder, tickCount);
@@ -36,12 +44,14 @@ public final class GameState extends Message {
     return GameState.endGameState(builder);
   }
 
-  public static void startGameState(FlatBufferBuilder builder) { builder.startTable(5); }
+  public static void startGameState(FlatBufferBuilder builder) { builder.startTable(7); }
   public static void addOpcode(FlatBufferBuilder builder, short opcode) { builder.addShort(0, opcode, 14); }
   public static void addGameTickCount(FlatBufferBuilder builder, int gameTickCount) { builder.addInt(1, gameTickCount, 0); }
   public static void addTickCount(FlatBufferBuilder builder, int tickCount) { builder.addInt(2, tickCount, 0); }
   public static void addPlayerScore(FlatBufferBuilder builder, int playerScore) { builder.addInt(3, playerScore, 0); }
   public static void addOpponentScore(FlatBufferBuilder builder, int opponentScore) { builder.addInt(4, opponentScore, 0); }
+  public static void addOpponentBoard(FlatBufferBuilder builder, int opponentBoardOffset) { builder.addOffset(5, opponentBoardOffset, 0); }
+  public static void addGameTime(FlatBufferBuilder builder, long gameTime) { builder.addLong(6, gameTime, 0L); }
   public static int endGameState(FlatBufferBuilder builder) {
     int o = builder.endTable();
     return o;

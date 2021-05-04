@@ -1,6 +1,6 @@
 package com.skillz.example_sync_server
 
-import com.skillz.server.Client
+
 import com.skillz.server.MessageBuilder
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -23,7 +23,9 @@ class MessageSender {
         GameState.addGameTickCount(builder, player.game.gameTickCounter)
         GameState.addPlayerScore(builder, player.score)
         GameState.addOpponentScore(builder, player.game.getOtherPlayer(player).score)
-        int offset = GameState.endGameState(builder)
+        int offset = builder.createString( player.game.getOtherPlayer(player).board )
+        GameState.addOpponentBoard(builder, offset)
+        GameState.addGameTime(builder, player.game.gameTime)
         builder.finish(offset)
         player.write(builder.sizedByteArray())
         this

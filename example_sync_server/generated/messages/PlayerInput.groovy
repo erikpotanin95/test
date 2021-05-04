@@ -17,19 +17,25 @@ public final class PlayerInput extends Message {
 
   public short opcode() { int o = __offset(4); return o != 0 ? bb.getShort(o + bb_pos) : 13; }
   public int newScore() { int o = __offset(6); return o != 0 ? bb.getInt(o + bb_pos) : 0; }
+  public String newBoard() { int o = __offset(8); return o != 0 ? __string(o + bb_pos) : null; }
+  public ByteBuffer newBoardAsByteBuffer() { return __vector_as_bytebuffer(8, 1); }
+  public ByteBuffer newBoardInByteBuffer(ByteBuffer _bb) { return __vector_in_bytebuffer(_bb, 8, 1); }
 
   public static int createPlayerInput(FlatBufferBuilder builder,
       short opcode,
-      int newScore) {
-    builder.startTable(2);
+      int newScore,
+      int newBoardOffset) {
+    builder.startTable(3);
+    PlayerInput.addNewBoard(builder, newBoardOffset);
     PlayerInput.addNewScore(builder, newScore);
     PlayerInput.addOpcode(builder, opcode);
     return PlayerInput.endPlayerInput(builder);
   }
 
-  public static void startPlayerInput(FlatBufferBuilder builder) { builder.startTable(2); }
+  public static void startPlayerInput(FlatBufferBuilder builder) { builder.startTable(3); }
   public static void addOpcode(FlatBufferBuilder builder, short opcode) { builder.addShort(0, opcode, 13); }
   public static void addNewScore(FlatBufferBuilder builder, int newScore) { builder.addInt(1, newScore, 0); }
+  public static void addNewBoard(FlatBufferBuilder builder, int newBoardOffset) { builder.addOffset(2, newBoardOffset, 0); }
   public static int endPlayerInput(FlatBufferBuilder builder) {
     int o = builder.endTable();
     return o;
